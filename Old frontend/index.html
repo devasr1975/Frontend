@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <title>SmartIQ</title>
+</head>
+<body>
+    <header>
+        <div class="container fixed-top-0">
+            <nav class="d-flex mt-3">
+                <h2><a href="./home.html" style="text-decoration: none; color: white;">SmartIQ</a></h2>
+                <div class="ml-auto p-2 navbar">
+                    <a href="./collections.html" class="mr-2">
+                        <img src="./assets/images/icons8-bookmark.svg" alt="collection" height="30px" width="30px" />
+                    </a>
+                    <a href="./setting.html" class="mr-2">
+                        <img src="./assets/images/icons8-settings.svg" alt="settings" height="30px" width="30px" />
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container mt-5">
+            <div class="connect-icon">
+                <p>Enter The IP Address</p>
+                <input type="text" id="ipaddress" placeholder="Enter IP Address">
+                <button onclick="updateCameraUrl()">Connect</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="index.js"></script>
+</body>
+</html>

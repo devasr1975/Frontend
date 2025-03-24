@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Read Entire Book</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(to right, #1e293b, #3b82f6);
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sidebar h2 {
+      margin-top: 40px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+    }
+
+    .main-content h1 {
+      font-size: 2rem;
+      color: #1e293b;
+      margin-bottom: 30px;
+    }
+
+    .output-box {
+      width: 80%;
+      height: 300px;
+      border: 2px dashed #1e293b;
+      background: #ffffff;
+      padding: 15px;
+      overflow-y: auto;
+      margin-bottom: 30px;
+      text-align: left;
+      border-radius: 8px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      background-color: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <h2>Visual Interface</h2>
+  </div>
+
+  <div class="main-content">
+    <h1>Read Entire Book</h1>
+    <div id="output" class="output-box">
+      <!-- Extracted text will appear here -->
+    </div>
+    <button class="btn" onclick="summarizeText()">Summarize</button>
+  </div>
+
+  <script>
+    // Simulating backend extracted text (replace with real backend call)
+    window.onload = function () {
+      // You will replace this with data fetched from your backend
+      document.getElementById('output').innerText = "Waiting for extracted text from backend...";
+    }
+
+    function summarizeText() {
+      alert("Summarize function triggered!"); 
+      // Trigger your backend summarize endpoint here
+    }
+  </script>
+</body>
+
+</html>

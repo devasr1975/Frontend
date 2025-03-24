@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Camera Connection</title>
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: 0;
+    }
+
+    .sidebar {
+      width: 220px;
+      height: 100vh;
+      background: linear-gradient(to right, #1e293b, #3b82f6);
+      color: #fff;
+      padding: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #1e293b;
+      margin-top: 60px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #1e293b;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Voice Assistant</h2>
+  </div>
+
+  <h1>Connecting to ESP32 Camera... <br>Please wait</h1>
+  <button onclick="startVoiceAssistant()">Start Voice Assistant</button>
+
+  <script>
+    function speak(text, callback) {
+      if (!("speechSynthesis" in window)) {
+        alert("Text-to-Speech not supported in this browser.");
+        return;
+      }
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.lang = "en-US";
+      utterance.onend = callback;
+      speechSynthesis.speak(utterance);
+    }
+
+    function sendCommand() {
+      fetch("/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command: "start" })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Response from server:", data);
+        
+        if (data.extracted_text) {
+          localStorage.setItem("read_entire_book", data.extracted_text);
+          window.location.href = "12.html"; // Redirect to page 12
+        }
+      })
+      .catch(error => console.error("Error:", error));
+    }
+
+    function startListening() {
+      if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+        alert("Speech Recognition is not supported in this browser.");
+        return;
+      }
+
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function (event) {
+        const command = event.results[0][0].transcript.toLowerCase();
+        console.log("Recognized:", command);
+        if (command === "start") {
+          speak("Command recognized. Starting scan.", sendCommand);
+        }
+      };
+
+      recognition.onerror = function (event) {
+        console.error("Speech recognition error:", event.error);
+        alert("Speech Recognition Error: " + event.error);
+      };
+    }
+
+    function startVoiceAssistant() {
+      if (window.location.protocol !== "https:") {
+        alert("Warning: Speech Recognition may not work over an insecure connection (HTTP).");
+      }
+      speak("Connecting to ESP 32 camera. Please wait.", startListening);
+    }
+
+    console.log("SpeechRecognition support:", "SpeechRecognition" in window || "webkitSpeechRecognition" in window);
+  </script>
+</body>
+</html>

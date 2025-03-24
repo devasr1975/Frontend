@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="setting.css" />
+    <title>Settings</title>
+</head>
+
+<body>
+    <div class="container fixed-top-0">
+        <nav class="d-flex mt-3">
+            <a href="./result.html">
+                <img src="./assets/images/5208417_arrow_back_left_navigation_previous_icon.svg" alt="Back" height="43px" width="30px"/>
+            </a>
+            <h3>Settings</h3>
+        </nav>
+        <main>
+            <div class="d-flex mt-4 align-items-center">
+                <img src="./assets/images/global-svgrepo-com.svg" alt="Language" height="40px" width="25px"/>
+                <h3 class="ml-3">Language</h3>
+                <select id="languageSelect" class="ml-auto mr-3" onchange="updateSelectedLanguage(this.value)">
+                    <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="ta">Tamil</option>
+              <option value="hi">Hindi</option>
+              <option value="fr">French</option>
+                  
+                </select>
+            </div>
+            
+            <div class="d-flex mt-4 align-items-center">
+                <img src="./assets/images/floppy-disk-save-svgrepo-com.svg" alt="Save Text" height="40px" width="25px"/>
+                <h3 class="ml-3">Save Detected Text</h3>
+                <label class="switch ml-auto mr-2">
+                    <input type="checkbox" id="saveTextToggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="d-flex mt-4 align-items-center">
+                <img src="./assets/images/icons8-delete.svg" alt="Delete" height="40px" width="25px" id="deleteIcon"/>
+                <h3 class="ml-3">Delete All Collection</h3>
+            </div>
+        </main>
+    </div>
+    
+    <script src="setting.js"></script>
+</body>
+
+</html>

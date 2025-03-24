@@ -1,0 +1,77 @@
+/* Basic resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e0eafc, #cfdef3, #e0c3fc);
+}
+
+/* Header */
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+nav a img {
+    vertical-align: middle;
+}
+
+nav h3 {
+    color: #fff;
+    margin-left: 15px;
+}
+
+/* Main content */
+main {
+    padding-top: 80px;
+}
+
+#responsesContainer {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.box {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.box h3,
+.box h4,
+.box h5 {
+    margin: 10px 0;
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.d-flex img {
+    cursor: pointer;
+}
+
+.d-flex .fa-trash-alt {
+    color: red;
+    cursor: pointer;
+}
+
+.d-flex .fa-trash-alt:hover {
+    color: darkred;
+}

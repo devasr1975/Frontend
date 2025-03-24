@@ -1,0 +1,119 @@
+/* Basic resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e0eafc, #cfdef3, #e0c3fc);
+}
+
+.container {
+    padding-top: 20px;
+}
+
+/* Header */
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+nav h3 {
+    color: #fff;
+    margin: 0;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.navbar img {
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+/* Main content */
+main {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#textInput {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.box {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 80%;
+    margin-top: 15px;
+}
+
+.box h3,
+.box h4,
+.box h5 {
+    margin: 10px 0;
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.d-flex img {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+#targetAudio {
+    margin-top: 10px;
+    width: 100%;
+}
+
+#sourceText {
+    width: 90%;
+    word-wrap: break-word;
+}
+
+/* Additional CSS for button centering */
+.centered-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centered-button button {
+    margin-top: 10px; /* Adjust as needed */
+}
+
+/* Adjusting color of navbar icons */
+.navbar img {
+    filter: brightness(0) invert(1); /* Changes color to white */
+}
