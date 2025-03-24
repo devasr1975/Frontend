@@ -35,37 +35,50 @@
       padding: 40px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
       text-align: center;
+      position: relative;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 80%;
     }
 
     .main-content h1 {
       font-size: 2rem;
       color: #1e293b;
-      margin-bottom: 30px;
+      margin: 0;
     }
 
-    .output-box {
+    .button-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    .output-box, .summary-box {
       width: 80%;
-      height: 300px;
-      border: 2px dashed #1e293b;
+      min-height: 100px;
+      border: 2px solid #1e293b;
       background: #ffffff;
       padding: 15px;
       overflow-y: auto;
       margin-bottom: 30px;
       text-align: left;
       border-radius: 8px;
+      max-height: 500px;
     }
 
     .btn {
-      padding: 12px 24px;
+      padding: 8px 16px;
       background-color: #3b82f6;
       color: #fff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.875rem;
       transition: background-color 0.3s;
     }
 
@@ -81,25 +94,135 @@
   </div>
 
   <div class="main-content">
-    <h1>Read Entire Book</h1>
-    <div id="output" class="output-box">
-      <!-- Extracted text will appear here -->
+    <div class="header-container">
+      <h1>Read Entire Book</h1>
+      <button class="btn" onclick="runScan()">Run</button>
     </div>
+    
+    <div class="output-box" id="output">
+      <div class="box-header">
+          <span>Book Content</span>
+          <span>
+              <button onclick="readAloud()">🔊</button>
+          </span>
+      </div>
+      <div id="outputText"></div>
+    </div>
+
     <button class="btn" onclick="summarizeText()">Summarize</button>
+
+    
+    <div class="summary-box" id="summary">
+      <div class="box-header">
+          <span>Summary</span>
+          <button onclick="readSummaryAloud()">🔊</button>
+      </div>
+      <div id="summaryText"></div>
+    </div>
   </div>
 
   <script>
-    // Simulating backend extracted text (replace with real backend call)
-    window.onload = function () {
-      // You will replace this with data fetched from your backend
-      document.getElementById('output').innerText = "Waiting for extracted text from backend...";
+    function adjustBoxSize(elementId) {
+      const element = document.getElementById(elementId);
+      element.style.height = 'auto';
+      let newHeight = element.scrollHeight;
+      element.style.height = Math.min(newHeight, 500) + 'px';
+    }
+    function readAloud() {
+      let text = document.getElementById("outputText").textContent;
+      if (!text.trim()) {
+          alert("No content to read aloud.");
+          return;
+      }
+      let speech = new SpeechSynthesisUtterance(text);
+      speech.lang = "en-US";
+      window.speechSynthesis.speak(speech);
+    }
+    let speechSynthesisInstance = window.speechSynthesis;
+    let currentUtterance = null;
+
+    function toggleSpeech(textElementId) {
+        let text = document.getElementById(textElementId).textContent.trim();
+        
+        if (!text) {
+            alert("No content to read aloud.");
+            return;
+        }
+
+        // If speech is currently being spoken, stop it
+        if (speechSynthesisInstance.speaking) {
+            speechSynthesisInstance.cancel();
+            return;
+        }
+
+        // Otherwise, start speaking
+        currentUtterance = new SpeechSynthesisUtterance(text);
+        currentUtterance.lang = "en-US";
+        speechSynthesisInstance.speak(currentUtterance);
     }
 
-    function summarizeText() {
-      alert("Summarize function triggered!"); 
-      // Trigger your backend summarize endpoint here
+// Assign functions to specific elements
+          function readAloud() {
+              toggleSpeech("outputText");
+          }
+
+          function readSummaryAloud() {
+              toggleSpeech("summaryText");
+          }
+    
+
+    function runScan() {
+      document.getElementById('outputText').innerText = "Scanning...";
+      fetch('http://127.0.0.1:5000/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: 'start' })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('outputText').innerText = data.extracted_text || "No text found.";
+        localStorage.setItem('scannedBook', data.extracted_text || "");
+        adjustBoxSize('outputText');
+      })
+      .catch(error => console.error('Error:', error));
     }
+
+    async function summarizeText() {
+    // const content = document.getElementById("outputText").textContent.trim();
+    let content = localStorage.getItem("scannedBook") || ""; 
+    // Check if content is empty
+    if (!content) {
+        alert("No content to summarize. Please scan the book first.");
+        document.getElementById("summaryText").textContent = "No text available to summarize.";
+        return;
+    }
+
+    const summaryBox = document.getElementById("summaryText");
+    summaryBox.textContent = "Summarizing..."; // Show loading state
+
+    try {
+        const response = await fetch("http://127.0.0.1:5000/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: content })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        summaryBox.textContent = data.response || "No summary available.";
+    } catch (error) {
+        console.error("Error fetching summary:", error);
+        summaryBox.textContent = "Failed to generate summary. Please try again.";
+    } finally {
+        adjustHeight(summaryBox);
+    }
+}
+
   </script>
 </body>
-
 </html>

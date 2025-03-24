@@ -215,13 +215,13 @@
             }
 
             // API endpoint URL for translation
-            const apiUrl = "http://127.0.0.1:5000/"; // Updated public URL
+            const apiUrl = "http://127.0.0.1:5000/speech"; // Updated public URL
 
             // Prepare data for POST request
             const data = {
                 Text: textInput,
-                SourceLanguage: "en", // Hardcoded source language as 'en' (English)
-                TargetLanguage: selectedLanguage,
+                sourceLanguage: "en", // Hardcoded source language as 'en' (English)
+                targetLanguage: selectedLanguage,
             };
 
             // Make API call using fetch
